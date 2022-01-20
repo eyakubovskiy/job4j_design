@@ -15,7 +15,6 @@ public class FlatMap<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-
         if (cursor == Collections.emptyIterator()) {
             if (data.hasNext()) {
                 cursor = data.next();
@@ -31,7 +30,6 @@ public class FlatMap<T> implements Iterator<T> {
                 return false;
             }
         }
-
     }
 
     @Override
