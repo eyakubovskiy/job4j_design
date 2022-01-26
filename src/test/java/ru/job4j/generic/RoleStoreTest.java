@@ -56,10 +56,8 @@ public class RoleStoreTest {
         Role role2 = new Role(roleId2, roleName2);
         RoleStore roleStore = new RoleStore();
 
-
         roleStore.add(role1);
         roleStore.replace("1", role2);
-
 
         assertThat(roleStore.findById("1").getName(), equalTo(roleName2));
     }
@@ -74,10 +72,8 @@ public class RoleStoreTest {
         Role role2 = new Role(roleId2, roleName2);
         RoleStore roleStore = new RoleStore();
 
-
         roleStore.add(role1);
         roleStore.replace("15", role2);
-
 
         assertThat(roleStore.findById("1").getName(), equalTo(roleName1));
     }
@@ -92,11 +88,9 @@ public class RoleStoreTest {
         Role role2 = new Role(roleId2, roleName2);
         RoleStore roleStore = new RoleStore();
 
-
         roleStore.add(role1);
         roleStore.add(role2);
         roleStore.delete("1");
-
 
         assertThat(roleStore.findById("2").getName(), equalTo(roleName2));
         assertThat(roleStore.findById("1"), equalTo(null));
@@ -112,11 +106,9 @@ public class RoleStoreTest {
         Role role2 = new Role(roleId2, roleName2);
         RoleStore roleStore = new RoleStore();
 
-
         roleStore.add(role1);
         roleStore.add(role2);
         roleStore.delete("13");
-
 
         assertThat(roleStore.findById("1").getName(), equalTo(roleName1));
         assertThat(roleStore.findById("2").getName(), equalTo(roleName2));
