@@ -40,6 +40,7 @@ public class RoleStoreTest {
         String roleName2 = "testRole2";
         Role role2 = new Role(roleId2, roleName2);
         RoleStore roleStore = new RoleStore();
+
         roleStore.add(role1);
         roleStore.add(role2);
 
