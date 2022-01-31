@@ -8,27 +8,28 @@ public class SimpleArrayList<T> implements List<T> {
     private int size;
     private int modCount;
 
-    private int index;
-    boolean thisIsTwiceNext;
-
     public SimpleArrayList(int capacity) {
         this.container = (T[]) new Object[capacity];
     }
 
     @Override
     public void add(T value) {
-        if (container.length == size) {
-            container = Arrays.copyOf(container, container.length * 2);
-        }
+        checkNeedToIncreaseContainerSize();
         container[size] = value;
         size++;
         modCount++;
     }
 
+    private void checkNeedToIncreaseContainerSize() {
+        if (container.length == size) {
+            container = Arrays.copyOf(container, container.length * 2);
+        }
+    }
+
     @Override
     public T set(int index, T newValue) {
         Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         return oldValue;
     }
@@ -36,8 +37,9 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public T remove(int index) {
         Objects.checkIndex(index, size);
-        T result = container[index];
+        T result = get(index);
         System.arraycopy(container, index + 1, container, index, size - index - 1);
+        set(size - 1, null);
         size--;
         modCount++;
         return result;
@@ -59,32 +61,23 @@ public class SimpleArrayList<T> implements List<T> {
         return new Iterator<T>() {
 
             final int expectedModCount = modCount;
+            private int index;
 
             @Override
             public boolean hasNext() {
-                checkSafe();
-                thisIsTwiceNext = false;
+                if (modCount != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return (index < size);
             }
 
             @Override
             public T next() {
-                checkSafe();
-                if (thisIsTwiceNext) {
-                    index = 0;
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 Objects.checkIndex(index, size);
-                thisIsTwiceNext = true;
                 return container[index++];
-            }
-
-            public void checkSafe() {
-                if (modCount != expectedModCount) {
-                    throw new ConcurrentModificationException();
-                }
             }
         };
     }
