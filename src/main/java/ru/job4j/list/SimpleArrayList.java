@@ -21,14 +21,15 @@ public class SimpleArrayList<T> implements List<T> {
     }
 
     private void checkNeedToIncreaseContainerSize() {
-        if (container.length == size) {
+        if (container.length == 0) {
+            this.container = (T[]) new Object[1];
+        } else if (container.length == size) {
             container = Arrays.copyOf(container, container.length * 2);
         }
     }
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, size);
         T oldValue = get(index);
         container[index] = newValue;
         return oldValue;
@@ -36,10 +37,9 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, size);
         T result = get(index);
         System.arraycopy(container, index + 1, container, index, size - index - 1);
-        set(size - 1, null);
+        container[size - 1] = null;
         size--;
         modCount++;
         return result;
@@ -76,7 +76,6 @@ public class SimpleArrayList<T> implements List<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Objects.checkIndex(index, size);
                 return container[index++];
             }
         };
