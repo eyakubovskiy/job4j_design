@@ -1,6 +1,7 @@
 package ru.job4j.collection.list;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleLinkedList<E> implements List<E> {
@@ -26,16 +27,11 @@ public class SimpleLinkedList<E> implements List<E> {
     @Override
     public E get(int index) {
         Objects.checkIndex(index, size);
-
-        Node<E> current = null;
         Node<E> nextNode = first;
-
-        for (int i = 0; i <= index; i++) {
-            current = nextNode;
+        for (int i = 0; i < index; i++) {
             nextNode = nextNode.nextNode;
         }
-
-        return current.value;
+        return nextNode.value;
     }
 
     @Override
@@ -46,17 +42,21 @@ public class SimpleLinkedList<E> implements List<E> {
 
             @Override
             public boolean hasNext() {
-                return size > 0 && (current == null || current.nextNode != null);
+                return (current == null && first != null)
+                        || (current != null && current.nextNode != null);
             }
 
             @Override
             public E next() {
-                if (current == null) {
-                    current = first;
-                } else {
-                    current = current.nextNode;
+                if (hasNext()) {
+                    if (current == null) {
+                        current = first;
+                    } else {
+                        current = current.nextNode;
+                    }
+                    return current.value;
                 }
-                return current.value;
+                throw new NoSuchElementException();
             }
         };
     }
