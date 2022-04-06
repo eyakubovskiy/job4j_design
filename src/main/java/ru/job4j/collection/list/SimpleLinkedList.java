@@ -1,14 +1,16 @@
 package ru.job4j.collection.list;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleLinkedList<E> implements List<E> {
 
-    Node<E> first = null;
-    Node<E> last = null;
-    int size = 0;
+    private Node<E> first = null;
+    private Node<E> last = null;
+    private int size = 0;
+    private int modCount = 0;
 
     @Override
     public void add(E value) {
@@ -22,6 +24,7 @@ public class SimpleLinkedList<E> implements List<E> {
             last = newNode;
         }
         size++;
+        modCount++;
     }
 
     @Override
@@ -37,40 +40,38 @@ public class SimpleLinkedList<E> implements List<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-
-            Node<E> current = null;
+            final int createModCount = modCount;
+            Node<E> current = new Node<>(null, null, first);
 
             @Override
             public boolean hasNext() {
-                return (current == null && first != null)
-                        || (current != null && current.nextNode != null);
+                if (createModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return current.nextNode != null;
             }
 
             @Override
             public E next() {
-                if (hasNext()) {
-                    if (current == null) {
-                        current = first;
-                    } else {
-                        current = current.nextNode;
-                    }
-                    return current.value;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                throw new NoSuchElementException();
+                current = current.nextNode;
+                return current.value;
             }
         };
     }
 
-    class Node<E> {
-        E value;
-        Node<E> previousNode;
-        Node<E> nextNode;
+    private class Node<E> {
+        private E value;
+        private Node<E> previousNode;
+        private Node<E> nextNode;
 
-        Node(E value) {
+        public Node(E value) {
             this.value = value;
         }
 
-        Node(E value, Node<E> previousNode, Node<E> nextNode) {
+        public Node(E value, Node<E> previousNode, Node<E> nextNode) {
             this.value = value;
             this.previousNode = previousNode;
             this.nextNode = nextNode;

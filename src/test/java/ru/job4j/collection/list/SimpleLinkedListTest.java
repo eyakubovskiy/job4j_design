@@ -3,7 +3,9 @@ package ru.job4j.collection.list;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
@@ -85,5 +87,28 @@ public class SimpleLinkedListTest {
         assertThat(second.hasNext(), Is.is(true));
         assertThat(second.next(), Is.is(2));
         assertThat(second.hasNext(), Is.is(false));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void throwExceptionWhenNotCallAddAndCallGet() {
+        List<Integer> list = new SimpleLinkedList<>();
+        list.get(0);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void throwExceptionWhenNotCallAddAndCallIteratorNext() {
+        List<Integer> list = new SimpleLinkedList<>();
+        Iterator<Integer> iterator = list.iterator();
+        iterator.next();
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void throwIteratorExceptionWhenEditListAfterCreateIterator() {
+        List<Integer> list = new SimpleLinkedList<>();
+        list.add(3);
+        list.add(2);
+        Iterator<Integer> iterator = list.iterator();
+        list.add(1);
+        iterator.next();
     }
 }
