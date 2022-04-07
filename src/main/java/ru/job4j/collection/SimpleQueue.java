@@ -16,7 +16,12 @@ public class SimpleQueue<T> {
         }
 
         if (sizeOut == 0) {
-            move(in, out, sizeIn);
+            T tmp;
+            for (int i = 0; i < sizeIn; i++) {
+                tmp = in.pop();
+                out.push(tmp);
+            }
+
             sizeOut += sizeIn;
             sizeIn = 0;
         }
