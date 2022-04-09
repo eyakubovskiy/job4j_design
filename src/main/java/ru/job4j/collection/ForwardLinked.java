@@ -88,14 +88,4 @@ public class ForwardLinked<T> implements Iterable<T> {
             return true;
         }
     }
-
-    private Node<T> move(Node<T> node) {
-        Node<T> current = node;
-        Node<T> next = node.next;
-
-        node = next;
-        node.next = current;
-
-        return next;
-    }
 }
