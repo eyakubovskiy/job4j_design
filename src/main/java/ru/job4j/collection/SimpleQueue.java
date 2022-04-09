@@ -18,8 +18,7 @@ public class SimpleQueue<T> {
         if (sizeOut == 0) {
             T tmp;
             for (int i = 0; i < sizeIn; i++) {
-                tmp = in.pop();
-                out.push(tmp);
+                out.push(in.pop());
             }
 
             sizeOut += sizeIn;
@@ -34,13 +33,5 @@ public class SimpleQueue<T> {
     public void push(T value) {
         in.push(value);
         sizeIn++;
-    }
-
-    private void move(SimpleStack<T> from, SimpleStack<T> to, int count) {
-        T tmp;
-        for (int i = 0; i < count; i++) {
-            tmp = from.pop();
-            to.push(tmp);
-        }
     }
 }
