@@ -7,7 +7,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
 
     public void add(T value) {
-        Node<T> node = new Node<T>(value, null);
+        Node<T> node = new Node<>(value, null);
         if (head == null) {
             head = node;
             return;
@@ -21,7 +21,7 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             Node<T> node = head;
 
             @Override
@@ -57,7 +57,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
 
         T val = head.value;
-        Node headNext = head.next;
+        Node<T> headNext = head.next;
         head.next = null;
         head.value = null;
         head = headNext;
@@ -65,6 +65,37 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     public void addFirst(T value) {
-        head = new Node<T>(value, head);
+        head = new Node<>(value, head);
+    }
+
+    public boolean revert() {
+
+        if (head == null || head.next == null) {
+            return false;
+        } else {
+            Node<T> afterHead;
+            Node<T> afterAfterHead;
+
+            afterHead = head.next;
+            head.next = null;
+
+            while (afterHead != null) {
+                afterAfterHead = afterHead.next;
+                afterHead.next = head;
+                head = afterHead;
+                afterHead = afterAfterHead;
+            }
+            return true;
+        }
+    }
+
+    private Node<T> move(Node<T> node) {
+        Node<T> current = node;
+        Node<T> next = node.next;
+
+        node = next;
+        node.next = current;
+
+        return next;
     }
 }
