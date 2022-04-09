@@ -35,7 +35,6 @@ public class ForwardLinkedTest {
         assertThat(it.next(), is(2));
     }
 
-
     @Test
     public void whenAddThenIter() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
@@ -70,7 +69,6 @@ public class ForwardLinkedTest {
         assertFalse(singleList.revert());
     }
 
-
     @Test
     public void correctRevertWhenManyElements() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
@@ -87,5 +85,4 @@ public class ForwardLinkedTest {
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(1));
     }
-
 }
