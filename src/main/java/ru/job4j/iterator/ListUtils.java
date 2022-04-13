@@ -30,13 +30,13 @@ public class ListUtils {
 
     public static <T> void replaceIf(List<T> list, Predicate<T> filter, T value) {
         ListIterator<T> iterator = list.listIterator();
-        int index = 0;
+        //int index = 0;
         while (iterator.hasNext()) {
             T current = iterator.next();
             if (filter.test(current)) {
-                list.set(index, value);
+                iterator.set(value);
             }
-            index++;
+            //index++;
         }
     }
 
