@@ -16,7 +16,6 @@ public class LogFilter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 
