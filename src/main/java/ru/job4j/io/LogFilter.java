@@ -31,4 +31,5 @@ public class LogFilter {
         log.forEach(System.out::println);
         save(log, "404.txt");
     }
+
 }
