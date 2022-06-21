@@ -33,7 +33,7 @@ public class Config {
                                     }
                                 }
                                 if (!correctLength || !keyValueFilled) {
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("Property file has errors!");
                                 }
                             });
         } catch (IOException e) {
