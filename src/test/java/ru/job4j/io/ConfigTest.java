@@ -30,7 +30,7 @@ public class ConfigTest {
         String path = "./data/app_broken_two_equals.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.domain"), is("corp"));
+        assertThat(config.value("hibernate.connection.domain"), is("corp ="));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ConfigTest {
         String path = "./data/app_broken_two_value.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.password"), is("passes"));
+        assertThat(config.value("hibernate.connection.password"), is("passes = pas"));
     }
 
     @Test(expected = IllegalArgumentException.class)

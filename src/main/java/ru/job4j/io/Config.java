@@ -21,7 +21,7 @@ public class Config {
             read.lines().filter(m -> !m.startsWith("#") && !m.trim().isEmpty())
                     .forEach(
                             x -> {
-                                String[] splited = x.split("=");
+                                String[] splited = x.split("=", 2);
                                 boolean correctLength = splited.length > 1;
                                 boolean keyValueFilled = false;
                                 if (correctLength) {
