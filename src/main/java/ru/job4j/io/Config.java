@@ -18,7 +18,7 @@ public class Config {
 
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
-            read.lines().filter(m -> !m.startsWith("#") && m.trim().length() > 0)
+            read.lines().filter(m -> !m.startsWith("#") && !m.trim().isEmpty())
                     .forEach(
                             x -> {
                                 String[] splited = x.split("=");
